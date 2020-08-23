@@ -1,0 +1,49 @@
+<div class="greet textbox">
+       <form action="/greet" method="POST">
+          <label for="who to greet">Greet</label>
+          <input type="text" name="nameItem" value="" placeholder="enter name " class="nameEntered">
+          <button class="greetBtn" type="submit" >Greet me</button>
+</form>
+
+<form action="/reset" method="POST">
+          <button class="resetBtn" type="submit" >Reset</button>
+</form>
+
+       <form action="/counter" method="POST">
+          <span class="greetCounter">{{countUsers}}</span>
+    </div>
+       
+<div>
+    <p>{{display}}</p>
+</div>
+
+    <form action="/greetings" method="POST">
+      <div class="greet radio">
+        <label class="">
+          <input type="radio" name="langItem" value="English">
+          <span class="label-body">English</span>
+        </label>
+        <label class="">
+          <input type="radio" name="langItem" value="Afrikaans">
+          <span class="label-body">Afrikaans</span>
+        </label>
+        <label class="">
+            <input type="radio" name="langItem" value="isiXhosa">
+            <span class="label-body">isiXhosa</span>
+          </label>
+      </div>
+</form>
+
+{{#if messages.info}}
+<div class="entry">
+    <h1> {{messages.info}}</h1>
+</div>
+{{/if}}
+
+<form action="/greeted" method="POST">
+<div>
+<ul>
+     <li>{{greetedList}}</li>
+</ul>
+</div>
+</form>

@@ -1,0 +1,27 @@
+input[type="text"] {
+	width: 10em;
+	padding: 0.5em;
+  }
+
+button[type="button"] {
+  margin: 0.5em;
+  width: 6em;
+  padding: 0.25em;
+  background-color: lightgrey;
+  border-radius: 0.35em;
+
+    }
+
+body {
+	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 1.4em;
+  color: white;
+  padding-top: 2.5em;
+  background-color:lightslategrey;
+  text-align: center;
+  
+  }
+  
+.greeting {
+	margin: 0.5em;
+  }
