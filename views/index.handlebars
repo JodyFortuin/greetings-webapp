@@ -9,13 +9,18 @@
           <button class="resetBtn" type="submit" >Reset</button>
 </form>
 
-       <form action="/counter" method="POST">
+       <form action="/counter/:userNames" method="POST">
           <span class="greetCounter">{{countUsers}}</span>
     </div>
        
 <div>
     <p>{{display}}</p>
 </div>
+
+<div>
+    <p>{{lang}}</p>
+</div>
+
 
     <form action="/greetings" method="POST">
       <div class="greet radio">
@@ -31,6 +36,8 @@
             <input type="radio" name="langItem" value="isiXhosa">
             <span class="label-body">isiXhosa</span>
           </label>
+        <button class="langBtn" type="submit" >Greet radio</button>
+
       </div>
 </form>
 
@@ -43,7 +50,7 @@
 <form action="/greeted" method="POST">
 <div>
 <ul>
-     <li>{{greetedList}}</li>
+     <p>{{greetedList}}</p>
 </ul>
 </div>
 </form>
