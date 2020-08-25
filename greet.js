@@ -1,17 +1,19 @@
 module.exports = function greetFactory(savedState) {
 
-    var namesListedMap = savedState || {};
+    var namesListedMap = savedState || [];
 
     function reset() {
-        namesListedMap = {};
+        namesListedMap = [];
     }
 
     function listed(name) {
       var nameList = namesListedMap;
+      const addName = nameList.push(name) 
         console.log(nameList);
         if (name !== ""){
         for (var i=0;i<nameList.length;i++){
-        nameList.push(name);
+        // var vertList = nameList[i];
+           return addName;
         }
       }
     }
@@ -36,16 +38,20 @@ module.exports = function greetFactory(savedState) {
 }
 }
     
-    function language(name, langItem) {
-        if (name !== "" && langItem !== "") {
-            if (langItem === "English") {
-                return "Hello, " + name;
+    function language(name, lang) {
+        var Eng = "Hello, " + name;
+        var Afr = "Halo, " + name;
+        var Xho = "Molo, " + name;
+
+        if (name !== "" && lang !== "") {
+            if (lang === "English") {
+                return Eng;
             }
-            else if (langItem === "Afrikaans") {
-                return "Halo, " + name;
+            else if (lang === "Afrikaans") {
+                return Afr;
             }
-            else if (langItem === "isiXhosa") {
-                return "Molo, " + name;
+            else if (lang === "isiXhosa") {
+                return Xho;
             } 
         }
       }
