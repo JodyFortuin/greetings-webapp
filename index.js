@@ -40,34 +40,45 @@ app.post('/greet', function(req,res){
     
      const list = greet.listed(req.body.nameItem);
      const greetedList = greet.allNames();
-     res.render('index', {display, greetedList});
+     console.log(req.body.langItem)
+     const reqName = req.body.nameItem;
+     const reqLang = req.body.langItem;
+     const lang = greet.language(reqName, reqLang);
+
+     const countUsers = greet.countNames(req.body);
+     res.render('index', {display, greetedList, countUsers, lang});
 });
 
 app.post('/greetings', function(req,res){
-     console.log(req.body);
+     const regName = req.body.nameItem;
+     const regLang = req.body.langItem;
+
      const lang = greet.language(req.body.langItem);
 
      res.render('index', {lang});
 });
 
 app.get('/greetings:langItem', function(req, res){
-     const lang = greet.language(req.params.langItem);
+     const regNameParam = req.params.nameItem;
+     const regLangParam = req.params.langItem;
+
+     const lang = greet.language(reqNameParam, reqLangParam);
 
      res.render('index', {lang});
 });
 
 app.post('/greeted', function(req, res){
 
-     const list = greet.listed(req.body.nameItem);
-     const greetedList = greet.allNames();
+//     const list = greet.listed(req.body.nameItem);
+  //   const greetedList = greet.allNames();
      res.render('index', {greetedList});
 });
 
-app.get('/counter/:userNames', function(req, res){
+app.post('/counter/:userNames', function(req, res){
      
-     const countUsers = greet.countNames();
+     const countUsers = greet.countNames(req.body);
 
-   res.render('greeted', {countUsers});
+   res.render('index', {countUsers});
 });
 
 app.post("/reset", function(req, res) {
