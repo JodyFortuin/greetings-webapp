@@ -29,53 +29,44 @@ app.get('/', function (req, res) {
 });
 
 app.post('/greet', function(req,res){
+     const regName = req.body.nameItem;
+     const regLang = req.body.langItem;
+
      const error = greet.noName(req.body.nameItem);
      const parsed = JSON.parse(JSON.stringify(req.body));
      console.log(parsed);
-     const display = greet.simpleGreet(req.body.nameItem);
+     const displayGreeting = greet.language(regName, regLang);
 
      if(error){
      req.flash('info', 'No name entered');
      }
-    
+
      const list = greet.listed(req.body.nameItem);
      const greetedList = greet.allNames();
      console.log(req.body.langItem)
-     const reqName = req.body.nameItem;
-     const reqLang = req.body.langItem;
-     const lang = greet.language(reqName, reqLang);
 
      const countUsers = greet.countNames(req.body);
-     res.render('index', {display, greetedList, countUsers, lang});
+     res.render('index', {display:displayGreeting});
 });
 
-app.post('/greetings', function(req,res){
-     const regName = req.body.nameItem;
-     const regLang = req.body.langItem;
+app.get('/greeted', function(req, res){
 
-     const lang = greet.language(req.body.langItem);
+     const greetedList = greet.allNames();
 
-     res.render('index', {lang});
+     res.render('greeted', {greetedList});
 });
 
-app.get('/greetings:langItem', function(req, res){
-     const regNameParam = req.params.nameItem;
-     const regLangParam = req.params.langItem;
+app.get('/counter', function(req, res){
+     const regName = req.params.nameItem;
+     const regLang = req.params.langItem;
 
-     const lang = greet.language(reqNameParam, reqLangParam);
-
-     res.render('index', {lang});
-});
-
-app.post('/greeted', function(req, res){
-
-//     const list = greet.listed(req.body.nameItem);
-  //   const greetedList = greet.allNames();
-     res.render('index', {greetedList});
-});
-
-app.post('/counter/:userNames', function(req, res){
+     const display = greet.language(regName, regLang);
      
+     res.render('counter', {display});
+});
+
+app.get('/counter/:userNames', function(req, res){
+
      const countUsers = greet.countNames(req.body);
 
    res.render('index', {countUsers});
