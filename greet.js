@@ -1,18 +1,17 @@
-module.exports = function greetFactory(savedState) {
+module.exports = function greetFactory() {
 
-    var namesListedMap = savedState || {};
+    var namesListedMap = [];
 
     function reset() {
-        namesListedMap = {};
+        namesListedMap = [];
     }
 
     function listed(name) {
       var nameList = namesListedMap;
-      const addName = nameList.push(name) 
+      const addName = nameList.push(name)
         console.log(nameList);
         if (name !== ""){
         for (var i=0;i<nameList.length;i++){
-        // var vertList = nameList[i];
            return addName;
         }
       }
@@ -30,29 +29,17 @@ module.exports = function greetFactory(savedState) {
         }
     }
 
-    function simpleGreet(name){
-      var displayedGreeting = "Hello, " + name; 
-
-      if (name !== ""){
-      return displayedGreeting;
-}
-}
-    
     function language(name, lang) {
-        var Eng = "Hello, " + name;
-        var Afr = "Halo, " + name;
-        var Xho = "Molo, " + name;
-
-        if (name !== "" && lang !== "") {
+        if (name !== "") {
             if (lang === "English") {
-                return Eng;
+              return "Hello, " + name;
             }
             else if (lang === "Afrikaans") {
-                return Afr;
+             return "Halo, " + name;
             }
             else if (lang === "isiXhosa") {
-                return Xho;
-            } 
+            return "Molo, " + name;
+            }
         }
       }
 
@@ -60,7 +47,7 @@ module.exports = function greetFactory(savedState) {
         var greetTotal = Object.keys(namesListedMap)
         return greetTotal.length;
     }
-    
+
     function regex(nameInput) {
         var characters = /[^A-Za-z]/g;
         if (nameInput !== "") {
@@ -79,11 +66,10 @@ module.exports = function greetFactory(savedState) {
         reset,
         addMap,
         language,
-        countNames, 
+        countNames,
         regex,
         allNames,
-        simpleGreet,
         noName,
-        listed
+        listed,
     }
 }
