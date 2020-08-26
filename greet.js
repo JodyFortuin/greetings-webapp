@@ -1,9 +1,9 @@
 module.exports = function greetFactory(savedState) {
 
-    var namesListedMap = savedState || [];
+    var namesListedMap = savedState || {};
 
     function reset() {
-        namesListedMap = [];
+        namesListedMap = {};
     }
 
     function listed(name) {
