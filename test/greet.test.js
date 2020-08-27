@@ -42,17 +42,7 @@ describe("Greet Unit Test", function() {
     assert.equal('Molo, Julien', greetName.language('Julien', 'isiXhosa'));
 
   });
-
-  it("should add a new name to local storage with a value of one", function() {
-
-    var greetName = greetFactory();
-
-    greetName.addMap('James');
-
-    assert.deepEqual(greetName.allNames(),['James': 1]);
-
-
-  });
+  
 
   it("should return the count of names greeted (3)", function() {
 
