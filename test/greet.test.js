@@ -49,7 +49,7 @@ describe("Greet Unit Test", function() {
 
     greetName.addMap('James');
 
-    assert.deepEqual(greetName.allNames(),{'James': 1});
+    assert.deepEqual(greetName.allNames(),['James': 1]);
 
 
   });
