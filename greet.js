@@ -13,7 +13,7 @@ module.exports = function greetFactory() {
         var capital = newName[0].toUpperCase() + newName.slice(1).toLowerCase();
 
         if (namesListedMap[capital] === undefined){
-        namesListedMap[capital] = 1;
+        namesListedMap[capital] = 0;
         } else {
         namesListedMap[capital]++;
        } return namesListedMap[capital]
