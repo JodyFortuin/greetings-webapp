@@ -9,15 +9,6 @@ describe("Greet Unit Test", function() {
    
     assert.equal("Hello, Kyle", greetName.language('Kyle', 'English'));
   });
-  
-
-  it("should return name entered with a capital letter (Jody instead of jody)", function() {
-    
-    var greetName = greetFactory();
-   
-    assert.equal("Jody", greetName.language('jody'));
-  });
-
 
   it("should greet in the language chosen (English)", function() {
 
