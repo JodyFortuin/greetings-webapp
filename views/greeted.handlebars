@@ -1,9 +1,7 @@
-<form action="/greeted" method="POST">
 <div>
-<ul>
-     <p>{{greetedList}}</p>
-</ul>
+<ul>{{#each name}}
+     <li>
+         <a href="/counter/{{this}}">{{this}}</a>
+     </li>
+{{/each}}</ul>
 </div>
-</form>
-
-        <a href="/counter">Counter</a>
