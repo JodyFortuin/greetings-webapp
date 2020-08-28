@@ -11,11 +11,11 @@ describe("Greet Unit Test", function() {
   });
   
 
-  it("should greet name entered using only letters that are entered (Jody instead of $*Jody*$123)", function() {
+  it("should return name entered with a capital letter (Jody instead of jody)", function() {
     
     var greetName = greetFactory();
    
-    assert.equal("Jody", greetName.regex('$*Jody*$123'));
+    assert.equal("Jody", greetName.regex('jody'));
   });
 
 
