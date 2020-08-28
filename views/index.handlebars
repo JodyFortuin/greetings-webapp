@@ -5,6 +5,10 @@
           <button class="greetBtn" type="submit" >Greet me</button>
        
 <div>
+     <p>{{countUsers}}</p>
+</div>
+
+<div>
     <p>{{display}}</p>
 </div>
 
@@ -39,7 +43,12 @@
        <a href="/greeted">Greeted list</a>
 </div>
 
-          <button class="resetBtn" type="submit" >Reset</button>
+</form>
+
+<form action="/reset" method="POST">
+
+ <button class="resetBtn" type="submit" >Reset</button>
+
 </form>
 
 <form action="/greeted" method="POST">
