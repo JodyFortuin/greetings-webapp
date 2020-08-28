@@ -34,42 +34,34 @@ app.post('/greet', function(req,res){
 
      const error = greet.noName(req.body.nameItem);
      const parsed = JSON.parse(JSON.stringify(req.body));
-     console.log(parsed);
      const displayGreeting = greet.language(regName, regLang);
 
      if(error){
      req.flash('info', 'No name entered');
      }
 
-     const list = greet.listed(req.body.nameItem);
+     const list = greet.addMap(req.body.nameItem);
      const greetedList = greet.allNames();
-     console.log(req.body.langItem)
 
      const countUsers = greet.countNames(req.body);
-     res.render('index', {display:displayGreeting});
+     res.render('index', {
+                display:displayGreeting,
+                countUsers: countUsers});
 });
 
 app.get('/greeted', function(req, res){
+     const greetedList = Object.keys(greet.allNames());
+     console.log(greetedList)
 
-     const greetedList = greet.allNames();
-
-     res.render('greeted', {greetedList});
+     res.render('greeted', {name: greetedList});
 });
 
-app.get('/counter', function(req, res){
-     const regName = req.params.nameItem;
-     const regLang = req.params.langItem;
+app.get('/counter/:nameItem', function(req, res){
 
-     const display = greet.language(regName, regLang);
-     
-     res.render('counter', {display});
-});
+    const displayName = req.params.nameItem;
+    const count = greet.addMap(req.params.nameItem);
 
-app.get('/counter/:userNames', function(req, res){
-
-     const countUsers = greet.countNames(req.body);
-
-   res.render('index', {countUsers});
+   res.render('counter', {displayName, count});
 });
 
 app.post("/reset", function(req, res) {
@@ -77,7 +69,7 @@ app.post("/reset", function(req, res) {
      res.redirect("/");
 })
 
-let PORT = process.env.PORT || 3050;
+let PORT = process.env.PORT || 3060;
 
 app.listen(PORT, function(){
   console.log('App starting on port', PORT);
