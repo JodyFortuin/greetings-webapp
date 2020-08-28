@@ -15,7 +15,7 @@ describe("Greet Unit Test", function() {
     
     var greetName = greetFactory();
    
-    assert.equal("Jody", greetName.regex('jody'));
+    assert.equal("Jody", greetName.language('jody'));
   });
 
 
