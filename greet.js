@@ -1,26 +1,22 @@
 module.exports = function greetFactory() {
 
-    var namesListedMap = [];
+    var namesListedMap = {};
 
     function reset() {
-        namesListedMap = [];
-    }
-
-    function listed(name) {
-      var nameList = namesListedMap;
-      const addName = nameList.push(name)
-        console.log(nameList);
-        if (name !== ""){
-        for (var i=0;i<nameList.length;i++){
-           return addName;
-        }
-      }
+        namesListedMap = {};
     }
 
     function addMap(name) {
-        if (namesListedMap[name] === undefined){
-        namesListedMap[name] = 1;
-        }
+
+        var characters = /[^A-Za-z]/g;
+        var newName = name.replace(characters, "")
+        var capital = newName[0].toUpperCase() + newName.slice(1).toLowerCase();
+
+        if (namesListedMap[capital] === undefined){
+        namesListedMap[capital] = 1;
+        } else {
+        namesListedMap[capital]++;
+       } return namesListedMap[capital]
     }
 
     function noName(name){
@@ -30,15 +26,20 @@ module.exports = function greetFactory() {
     }
 
     function language(name, lang) {
+        var characters = /[^A-Za-z]/g;
+        var newName = name.replace(characters, "")
+        var capital = newName[0].toUpperCase() + newName.slice(1).toLowerCase();
+
+
         if (name !== "") {
             if (lang === "English") {
-              return "Hello, " + name;
+              return "Hello, " + capital;
             }
             else if (lang === "Afrikaans") {
-             return "Halo, " + name;
+             return "Halo, " + capital;
             }
             else if (lang === "isiXhosa") {
-            return "Molo, " + name;
+            return "Molo, " + capital;
             }
         }
       }
@@ -48,7 +49,7 @@ module.exports = function greetFactory() {
         return greetTotal.length;
     }
 
-    function regex(nameInput) {
+/*    function regex(nameInput) {
         var characters = /[^A-Za-z]/g;
         if (nameInput !== "") {
         var newName = nameInput.replace(characters, "")
@@ -57,8 +58,9 @@ module.exports = function greetFactory() {
      }
     return "";
     }
-
+*/
     function allNames() {
+       console.log(namesListedMap)
         return namesListedMap;
     }
 
@@ -67,9 +69,8 @@ module.exports = function greetFactory() {
         addMap,
         language,
         countNames,
-        regex,
         allNames,
         noName,
-        listed,
+ 
     }
 }
