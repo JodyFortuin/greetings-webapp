@@ -8,6 +8,15 @@ const greetFactory = require('./greet');
 let app = express();
 const greet = greetFactory();
 
+const pg = require("pg");
+const Pool = pg.Pool;
+
+const connectionString = process.env.DATABASE_URL || 'postgresql://codex:pg123@localhost:5432/greetings';
+
+const pool = new Pool({
+    connectionString
+  });
+
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
@@ -24,8 +33,11 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.get('/', function (req, res) {
-     res.render('index',);
+app.get('/', async function (req, res) {
+
+     const usernames = await pool.query('select name, greet_count as count from users');
+     console.log(usernames);
+     res.render('index',{usernames});
 });
 
 app.post('/greet', function(req,res){
@@ -56,12 +68,26 @@ app.get('/greeted', function(req, res){
      res.render('greeted', {name: greetedList});
 });
 
-app.get('/counter/:nameItem', function(req, res){
+app.get('/counter/:nameItem', async function(req, res){
 
     const displayName = req.params.nameItem;
     const count = greet.addMap(req.params.nameItem);
+    const name = req.body.nameItem;
 
    res.render('counter', {displayName, count});
+});
+
+app.post('greetings', async function(req, res){
+
+    const count = greet.addMap(req.params.nameItem);
+    const name = req.body.nameItem;
+
+if (name, count){
+    const INSERT_QUERY = "insert into users(name, greet_count) values ($1, $2)";
+           await pool.query(INSERT_QUERY, [name, count]);
+}
+
+   res.render('counter', {count, usernames});
 });
 
 app.post("/reset", function(req, res) {
