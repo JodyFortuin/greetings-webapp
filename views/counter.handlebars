@@ -4,5 +4,24 @@
 </div>
 
 <div>
+
+      <table class="table">
+
+         <th>Name</th>
+         <th>greet_count</th>
+
+       <tbody>
+       {{#each username}}
+        <tr>
+         <td>{{displayName}}</td>
+         <td>{{count}}</td> 
+        </tr>
+       {{/each}}
+       </tbody>
+
+      </table>
+</div>
+
+<div>
         <a href="/">Home page</a>
 </div>
