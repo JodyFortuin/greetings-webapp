@@ -37,11 +37,11 @@ app.get('/', async function (req, res) {
 
      const usernames = await greet.getData();
 //     const usernames = await pool.query('select name, greet_count as count from users');
-     console.log(usernames);
+     console.log(usernames)
      res.render('index',{usernames});
 });
 
-app.post('/greet', function(req,res){
+app.post('/greet', async function(req,res){
      const regName = req.body.nameItem;
      const regLang = req.body.langItem;
 
@@ -62,7 +62,7 @@ app.post('/greet', function(req,res){
                 countUsers: countUsers});
 });
 
-app.get('/greeted', function(req, res){
+app.get('/greeted', async function(req, res){
      const greetedList = Object.keys(greet.allNames());
      console.log(greetedList)
 
@@ -82,18 +82,17 @@ app.post('/greetings', async function(req, res){
 
     const count = greet.addMap(req.body.nameItem);
     const name = req.body.nameItem;
-//    const countData = greet.addDatabase(name);
-
-//    await greet.addData({name})
+//    const countData = greet.addData(name);
 
 if (name){
            await greet.addData({name});
 }
 
-   res.render('counter', {name, count});
+     const usernames = await greet.getData();
+   res.render('counter', {name, count, usernames});
 });
 
-app.post("/reset", function(req, res) {
+app.post("/reset", async function(req, res) {
      greet.reset();
      res.redirect("/");
 })
