@@ -1,5 +1,15 @@
 module.exports = function greetFactory() {
 
+const pg = require("pg");
+const Pool = pg.Pool;
+
+const connectionString = process.env.DATABASE_URL || 'postgresql://codex:pg123@localhost:5432/greetings';
+
+const pool = new Pool({
+    connectionString
+  });
+
+
     var namesListedMap = {};
 
     function reset() {
@@ -17,6 +27,16 @@ module.exports = function greetFactory() {
         } else {
         namesListedMap[capital]++;
        } return namesListedMap[capital]
+    }
+
+    async function addData(users){
+           const INSERT_QUERY = "insert into users(name, greet_count) values ($1, 1)";
+           await pool.query(INSERT_QUERY, [users.name]);
+    }
+
+    async function getData(){
+           const usernames = await pool.query('select name, greet_count as count from users');
+           return usernames.rows;
     }
 
     function noName(name){
@@ -71,6 +91,7 @@ module.exports = function greetFactory() {
         countNames,
         allNames,
         noName,
- 
+        addData,
+        getData
     }
 }
