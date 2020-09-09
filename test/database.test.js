@@ -14,7 +14,7 @@ const INSERT_QUERY = "insert into users (name, greet_count) values ($1, $2)";
 
 beforeEach(async function () {
 	await pool.query("delete from users");
-});
+  });
 
 
   it("should greet name entered (Kyle)", async function() {
@@ -22,7 +22,17 @@ beforeEach(async function () {
     let greetName = greetFactory(pool);
 
     assert.equal("Hello, Kyle", greetName.language('Kyle', 'English'));
-});
+  });
+
+  it("should be able to add a bookings", async function () {
+
+	await pool.query(INSERT_QUERY, ["Jack", 4]);
+
+	const results = await pool.query("select * from users where name = $1", ["Jack"]);
+
+	assert.equal(0, results.rows[1].name);
+
+  });
 
   it("should greet in the language chosen (English)", async function() {
 
