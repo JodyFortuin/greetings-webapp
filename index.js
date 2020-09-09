@@ -35,7 +35,8 @@ app.use(bodyParser.json())
 
 app.get('/', async function (req, res) {
 
-     const usernames = await pool.query('select name, greet_count as count from users');
+     const usernames = await greet.getData();
+//     const usernames = await pool.query('select name, greet_count as count from users');
      console.log(usernames);
      res.render('index',{usernames});
 });
@@ -77,17 +78,19 @@ app.get('/counter/:nameItem', async function(req, res){
    res.render('counter', {displayName, count});
 });
 
-app.post('greetings', async function(req, res){
+app.post('/greetings', async function(req, res){
 
-    const count = greet.addMap(req.params.nameItem);
+    const count = greet.addMap(req.body.nameItem);
     const name = req.body.nameItem;
+//    const countData = greet.addDatabase(name);
 
-if (name, count){
-    const INSERT_QUERY = "insert into users(name, greet_count) values ($1, $2)";
-           await pool.query(INSERT_QUERY, [name, count]);
+//    await greet.addData({name})
+
+if (name){
+           await greet.addData({name});
 }
 
-   res.render('counter', {count, usernames});
+   res.render('counter', {name, count});
 });
 
 app.post("/reset", function(req, res) {
