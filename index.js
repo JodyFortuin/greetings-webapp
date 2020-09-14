@@ -14,16 +14,16 @@ const Pool = pg.Pool;
 const connectionString = process.env.DATABASE_URL || 'postgresql://codex:pg123@localhost:5432/greetings';
 
 const pool = new Pool({
-    connectionString
-  });
+     connectionString
+});
 
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
 app.use(session({
-  secret : "<add a secret string here>",
-  resave: false,
-  saveUninitialized: true
+     secret: "<add a secret string here>",
+     resave: false,
+     saveUninitialized: true
 }));
 
 app.use(flash());
@@ -36,12 +36,12 @@ app.use(bodyParser.json())
 app.get('/', async function (req, res) {
 
      const usernames = await greet.getData();
-//     const usernames = await pool.query('select name, greet_count as count from users');
+     //     const usernames = await pool.query('select name, greet_count as count from users');
      console.log(usernames)
-     res.render('index',{usernames});
+     res.render('index', { usernames });
 });
 
-app.post('/greet', async function(req,res){
+app.post('/greet', async function (req, res) {
      const regName = req.body.nameItem;
      const regLang = req.body.langItem;
 
@@ -49,56 +49,57 @@ app.post('/greet', async function(req,res){
      const parsed = JSON.parse(JSON.stringify(req.body));
      const displayGreeting = greet.language(regName, regLang);
 
-     if(error){
-     req.flash('info', 'No name entered');
+     if (error) {
+          req.flash('info', 'No name entered');
      }
 
      const list = greet.addMap(req.body.nameItem);
      const greetedList = greet.allNames();
 
      const countUsers = greet.countNames(req.body);
+
+     const count = greet.addMap(req.body.nameItem);
+     const name = req.body.nameItem;
+
+     if (name) {
+          await greet.addData({ name });
+     }
+
+     const usernames = await greet.getData();
+
+
      res.render('index', {
-                display:displayGreeting,
-                countUsers: countUsers});
+          display: displayGreeting,
+          countUsers: countUsers,
+          name,
+          count,
+          usernames
+     });
 });
 
-app.get('/greeted', async function(req, res){
+app.get('/greeted', async function (req, res) {
      const greetedList = Object.keys(greet.allNames());
      console.log(greetedList)
 
-     res.render('greeted', {name: greetedList});
+     res.render('greeted', { name: greetedList });
 });
 
-app.get('/counter/:nameItem', async function(req, res){
+app.get('/counter/:nameItem', async function (req, res) {
 
-    const displayName = req.params.nameItem;
-    const count = greet.addMap(req.params.nameItem);
-    const name = req.body.nameItem;
+     const displayName = req.params.nameItem;
+     const count = greet.addMap(req.params.nameItem);
+     const name = req.body.nameItem;
 
-   res.render('counter', {displayName, count});
+     res.render('counter', { displayName, count });
 });
 
-app.post('/greetings', async function(req, res){
-
-    const count = greet.addMap(req.body.nameItem);
-    const name = req.body.nameItem;
-//    const countData = greet.addData(name);
-
-if (name){
-           await greet.addData({name});
-}
-
-     const usernames = await greet.getData();
-   res.render('counter', {name, count, usernames});
-});
-
-app.post("/reset", async function(req, res) {
+app.post("/reset", async function (req, res) {
      greet.reset();
      res.redirect("/");
 })
 
 let PORT = process.env.PORT || 3060;
 
-app.listen(PORT, function(){
-  console.log('App starting on port', PORT);
+app.listen(PORT, function () {
+     console.log('App starting on port', PORT);
 });
