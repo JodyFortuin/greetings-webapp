@@ -3,7 +3,7 @@ module.exports = function greetFactory() {
 const pg = require("pg");
 const Pool = pg.Pool;
 
-const connectionString = process.env.DATABASE_URL || 'postgresql://codex:pg123@localhost:5432/greetings';
+const connectionString = process.env.DATABASE_URL || 'postgresql://codex:codex123@localhost:5432/greetings';
 
 const pool = new Pool({
     connectionString
@@ -18,25 +18,43 @@ const pool = new Pool({
 
     function addMap(name) {
 
-        var characters = /[^A-Za-z]/g;
-        var newName = name.replace(characters, "")
-        var capital = newName[0].toUpperCase() + newName.slice(1).toLowerCase();
+//        var characters = /[^A-Za-z]/g;
+  //      var newName = name.replace(characters, "")
+    //    var capital = newName[0].toUpperCase() + newName.slice(1).toLowerCase();
 
-        if (namesListedMap[capital] === undefined){
-        namesListedMap[capital] = 0;
+        if (namesListedMap[name] === undefined){
+        namesListedMap[name] = 0;
         } else {
-        namesListedMap[capital]++;
-       } return namesListedMap[capital]
+        namesListedMap[name]++;
+       } return namesListedMap[name]
     }
 
     async function addData(users){
+           const nameValue = await pool.query("select greet_count from users where name = $1",[users.name]);
+           console.log(nameValue);
            const INSERT_QUERY = "insert into users(name, greet_count) values ($1, 1)";
+           const INCREMENT = "update users set greet_count = greet_count + 1 where name = $1"
+           if (nameValue.rowCount > 0){
+           await pool.query(INCREMENT, [users.name]);
+           } else {
            await pool.query(INSERT_QUERY, [users.name]);
+
+        }
     }
 
     async function getData(){
            const usernames = await pool.query('select name, greet_count as count from users');
            return usernames.rows;
+    }
+
+    async function resetBtn(){
+           const DELETE_QUERY = "delete from users";
+           await pool.query(DELETE_QUERY);
+    }
+
+    async function countNamesData(){
+           const COUNT_QUERY = "select count(*) from users";
+           await pool.query(COUNT_QUERY);
     }
 
     function noName(name){
@@ -46,22 +64,22 @@ const pool = new Pool({
     }
 
     function language(name, lang) {
-        var characters = /[^A-Za-z]/g;
-        var newName = name.replace(characters, "")
-        var capital = newName[0].toUpperCase() + newName.slice(1).toLowerCase();
+//        var characters = /[^A-Za-z]/g;
+  //      var newName = name.replace(characters, "")
+    //    var capital = newName[0].toUpperCase() + newName.slice(1).toLowerCase();
 
 
         if (name !== "") {
             if (lang === "English") {
-              return "Hello, " + capital;
+              return "Hello, " + name;
             }
             else if (lang === "Afrikaans") {
-             return "Halo, " + capital;
+             return "Halo, " + name;
             }
             else if (lang === "isiXhosa") {
-            return "Molo, " + capital;
+            return "Molo, " + name;
             }
-        }
+         }
       }
 
     function countNames() {
@@ -92,6 +110,8 @@ const pool = new Pool({
         allNames,
         noName,
         addData,
-        getData
+        getData,
+        resetBtn,
+        countNamesData
     }
 }
