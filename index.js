@@ -11,7 +11,7 @@ const greet = greetFactory();
 const pg = require("pg");
 const Pool = pg.Pool;
 
-const connectionString = process.env.DATABASE_URL || 'postgresql://codex:pg123@localhost:5432/greetings';
+const connectionString = process.env.DATABASE_URL || 'postgresql://codex:codex123@localhost:5432/greetings';
 
 const pool = new Pool({
      connectionString
@@ -38,7 +38,7 @@ app.get('/', async function (req, res) {
      const usernames = await greet.getData();
      //     const usernames = await pool.query('select name, greet_count as count from users');
      console.log(usernames)
-     res.render('index', { usernames });
+     res.render('index', { usernames});
 });
 
 app.post('/greet', async function (req, res) {
@@ -54,11 +54,10 @@ app.post('/greet', async function (req, res) {
      }
 
      const list = greet.addMap(req.body.nameItem);
-     const greetedList = greet.allNames();
 
      const countUsers = greet.countNames(req.body);
 
-     const count = greet.addMap(req.body.nameItem);
+//     const count = greet.addMap(req.body.nameItem);
      const name = req.body.nameItem;
 
      if (name) {
@@ -67,12 +66,12 @@ app.post('/greet', async function (req, res) {
 
      const usernames = await greet.getData();
 
-
+     const query = await pool.query('select count(*) from users');
      res.render('index', {
           display: displayGreeting,
           countUsers: countUsers,
           name,
-          count,
+    //      count,
           usernames
      });
 });
@@ -90,11 +89,12 @@ app.get('/counter/:nameItem', async function (req, res) {
      const count = greet.addMap(req.params.nameItem);
      const name = req.body.nameItem;
 
-     res.render('counter', { displayName, count });
+     res.render('counter', { displayName, count});
 });
 
 app.post("/reset", async function (req, res) {
      greet.reset();
+     await greet.resetBtn();
      res.redirect("/");
 })
 
