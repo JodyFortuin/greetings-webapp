@@ -3,7 +3,7 @@ module.exports = function greetFactory() {
 const pg = require("pg");
 const Pool = pg.Pool;
 
-const connectionString = process.env.DATABASE_URL || 'postgresql://codex:pg123@localhost:5432/greetings';
+const connectionString = process.env.DATABASE_URL || 'postgresql://kali:pg123@localhost:5432/greetings';
 
 const pool = new Pool({
     connectionString
@@ -31,7 +31,6 @@ const pool = new Pool({
 
     async function addData(users){
            const nameValue = await pool.query("select greet_count from users where name = $1",[users.name]);
-           console.log(nameValue);
            const INSERT_QUERY = "insert into users(name, greet_count) values ($1, 1)";
            const INCREMENT = "update users set greet_count = greet_count + 1 where name = $1"
            if (nameValue.rowCount > 0){
@@ -52,9 +51,14 @@ const pool = new Pool({
            await pool.query(DELETE_QUERY);
     }
 
-    async function countNamesData(){
-           const COUNT_QUERY = "select count(*) from users";
-           await pool.query(COUNT_QUERY);
+    async function getUserCount(users){
+           const userCount = await pool.query("select greet_count from users where name = $1", [users]);
+           return userCount.rows[0].greet_count;
+    }
+
+    async function getMainCount(){
+           const COUNT_QUERY = await pool.query("select id from users");
+           return COUNT_QUERY.rowCount;
     }
 
     function noName(name){
@@ -112,6 +116,7 @@ const pool = new Pool({
         addData,
         getData,
         resetBtn,
-        countNamesData
+        getMainCount,
+        getUserCount
     }
 }
