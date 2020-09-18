@@ -51,8 +51,8 @@ const pool = new Pool({
            await pool.query(DELETE_QUERY);
     }
 
-    async function getUserCount(users){
-           const userCount = await pool.query("select greet_count from users where name = $1", [users]);
+    async function getUserCount(user){
+           const userCount = await pool.query("select greet_count from users where name = $1", [user]);
            return userCount.rows[0].greet_count;
     }
 
