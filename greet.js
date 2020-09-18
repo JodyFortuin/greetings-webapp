@@ -30,9 +30,9 @@ const pool = new Pool({
     }
 
     async function addData(userValue){
-           const nameValue = await pool.query("select greet_count from users where name = $1",[userValue.name]);
-           const INSERT_QUERY = "insert into users(name, greet_count) values ($1, 1)";
-           const INCREMENT = "update users set greet_count = greet_count + 1 where name = $1"
+           const nameValue = await pool.query('select greet_count from users where name = $1',[userValue.name]);
+           const INSERT_QUERY = 'insert into users(name, greet_count) values ($1, 1)';
+           const INCREMENT = 'update users set greet_count = greet_count + 1 where name = $1'
            if (nameValue.rowCount > 0){
            await pool.query(INCREMENT, [userValue.name]);
            } else {
@@ -47,17 +47,17 @@ const pool = new Pool({
     }
 
     async function resetBtn(){
-           const DELETE_QUERY = "delete from users";
+           const DELETE_QUERY = 'delete from users';
            await pool.query(DELETE_QUERY);
     }
 
     async function getUserCount(user){
-           const userCount = await pool.query("select greet_count from users where name = $1", [user]);
+           const userCount = await pool.query('select greet_count from users where name = $1', [user]);
            return userCount.rows[0].greet_count;
     }
 
     async function getMainCount(){
-           const COUNT_QUERY = await pool.query("select id from users");
+           const COUNT_QUERY = await pool.query('select id from users');
            return COUNT_QUERY.rowCount;
     }
 
