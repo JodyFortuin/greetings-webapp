@@ -73,7 +73,7 @@ app.post('/greet', async function (req, res) {
      });
 });
 
-app.get('/greeted', function (req, res) {
+app.get('/greeted', async function (req, res) {
      const greetedList = await  Object.keys(greet.allNames());
      console.log(greetedList)
 
