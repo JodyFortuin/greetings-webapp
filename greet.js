@@ -29,14 +29,14 @@ const pool = new Pool({
        } return namesListedMap[name]
     }
 
-    async function addData(users){
-           const nameValue = await pool.query("select greet_count from users where name = $1",[users.name]);
+    async function addData(userValue){
+           const nameValue = await pool.query("select greet_count from users where name = $1",[userValue.name]);
            const INSERT_QUERY = "insert into users(name, greet_count) values ($1, 1)";
            const INCREMENT = "update users set greet_count = greet_count + 1 where name = $1"
            if (nameValue.rowCount > 0){
-           await pool.query(INCREMENT, [users.name]);
+           await pool.query(INCREMENT, [userValue.name]);
            } else {
-           await pool.query(INSERT_QUERY, [users.name]);
+           await pool.query(INSERT_QUERY, [userValue.name]);
 
         }
     }
