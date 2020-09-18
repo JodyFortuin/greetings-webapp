@@ -44,18 +44,17 @@ app.post('/greet', async function (req, res) {
      const regName = req.body.nameItem;
      const regLang = req.body.langItem;
 
-     const error = greet.noName(req.body.nameItem);
-     const parsed = JSON.parse(JSON.stringify(req.body));
-     const displayGreeting = greet.language(regName, regLang);
+     const error = await greet.noName(req.body.nameItem);
+     const parsed = await JSON.parse(JSON.stringify(req.body));
+     const displayGreeting = await greet.language(regName, regLang);
 
      if (error) {
           req.flash('info', 'No name entered');
      }
 
-     const list = greet.addMap(req.body.nameItem);
+     const list = await greet.addMap(req.body.nameItem);
 
 //     const countUsers = greet.countNames(req.body);
-   //  const countUsers = await greet.getMainCount();
      const name = req.body.nameItem;
 
      if (name) {
@@ -75,7 +74,7 @@ app.post('/greet', async function (req, res) {
 });
 
 app.get('/greeted', function (req, res) {
-     const greetedList = Object.keys(greet.allNames());
+     const greetedList = await  Object.keys(greet.allNames());
      console.log(greetedList)
 
      res.render('greeted', { name: greetedList });
