@@ -21,7 +21,10 @@ body {
   text-align: center;
   
   }
-  
+ul{
+  list-style: none;
+}
+
 .greeting {
 	margin: 0.5em;
   }
