@@ -1,15 +1,5 @@
 module.exports = function greetFactory() {
 
-const pg = require("pg");
-const Pool = pg.Pool;
-
-const connectionString = process.env.DATABASE_URL || 'postgresql://kali:pg123@localhost:5432/greetings';
-
-const pool = new Pool({
-    connectionString
-  });
-
-
     var namesListedMap = {};
 
     function reset() {
@@ -17,10 +7,6 @@ const pool = new Pool({
     }
 
     function addMap(name) {
-
-//        var characters = /[^A-Za-z]/g;
-  //      var newName = name.replace(characters, "")
-    //    var capital = newName[0].toUpperCase() + newName.slice(1).toLowerCase();
 
         if (namesListedMap[name] === undefined){
         namesListedMap[name] = 0;
@@ -68,10 +54,6 @@ const pool = new Pool({
     }
 
     function language(name, lang) {
-//        var characters = /[^A-Za-z]/g;
-  //      var newName = name.replace(characters, "")
-    //    var capital = newName[0].toUpperCase() + newName.slice(1).toLowerCase();
-
 
         if (name !== "") {
             if (lang === "English") {
@@ -91,16 +73,6 @@ const pool = new Pool({
         return greetTotal.length;
     }
 
-/*    function regex(nameInput) {
-        var characters = /[^A-Za-z]/g;
-        if (nameInput !== "") {
-        var newName = nameInput.replace(characters, "")
-        var capital = newName[0].toUpperCase() + newName.slice(1).toLowerCase();
-        return capital;
-     }
-    return "";
-    }
-*/
     function allNames() {
        console.log(namesListedMap)
         return namesListedMap;
